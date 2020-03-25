@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 跟Provider实体相对应的 -->
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置与数据库表相映射的文件 -->
+<mapper namespace="dao.ProviderMapper">
+  <!-- 书写sql命令 -->
+  <!-- 查询供应商一个有多少条数据 -->
+  <select id="getCount" resultType="int">
+    SELECT COUNT(1) FROM smbms_provider
+  </select>
+</mapper>

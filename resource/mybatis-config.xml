@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<!-- 核心内容 -->
+<configuration>
+   <!-- 配置环境变量 -->
+   <environments default="development">
+      <!-- 配置一个具体的环境变量 -->
+      <environment id="development">
+         <!--配置一个事务管理器  -->
+         <transactionManager type="JDBC"></transactionManager>
+         <!--配置一个数据源
+           mybatis自带的数据源POOLED 
+                      基于tomcat的数据源 JNDI
+                      -->
+         <dataSource type="POOLED">
+             <!-- 配置数据库驱动 -->
+             <property name="driver" value="com.mysql.jdbc.Driver"/>
+             <!-- 配置url  -->
+             <property name="url" value="jdbc:mysql://localhost:3306/smbms?characterEncoding=UTF-8&amp;useUnicode=true"/>
+             <!-- 配置username -->
+             <property name="username" value="root"/>
+             <!-- 配置密码 -->
+             <property name="password" value="1234"/>
+         </dataSource>
+      </environment>
+   </environments>
+   <!--配置实体类与数据库表的sql映射文件  -->  
+   <mappers>
+   <!--resource:是给我们书写映射文件的全路径  -->
+     <!-- 用户 -->
+     <mapper resource="dao/UserMapper.xml"/>
+     <!-- 供应商 -->
+      <mapper resource="dao/ProviderMapper.xml"/>
+   </mappers>   
+</configuration>
