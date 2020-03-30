@@ -7,10 +7,91 @@
 <mapper namespace="dao.UserMapper">
   <!-- 书写操作数据的sql命令 -->
   <!-- 查询数据表中用户数量的一个sql语句 -->
-  <!-- id:表示方法名  
-       resultType:表示返回值类型
+  <!-- id:表示方法名 必须唯一 
+       resultType:表示方法返回值类型
+       parameterType:传递的参数类型
   -->
   <select id="getCount" resultType="int">
     SELECT COUNT(1) FROM smbms_user 
+  </select>
+  <!-- 查询所有的用户信息 -->
+  <select id="getAll" resultType="User">
+    SELECT * FROM smbms_user 
+  </select>
+  <!-- 查询姓名中有莫一个数据的用户对象 -->
+  <select id="findByName" resultType="User" parameterType="String">
+     SELECT * FROM smbms_user WHERE userName LIKE CONCAT('%',#{userName},'%')
+  </select>
+  <!-- 根据多个条件进行查询的操作 
+    id:与Mapper接口的名字一一对应
+    resultType：sql语句执行后返回的结果 可以是基本类型 也可以是引用类型(实体类的别名)
+        如果是集合和对象都给实体类的别名，因为集何我们一般也是保存实体类型的数据 
+    parameterType：设置传递参数的类型，可以是基本数据类型，也可以是引用数据类型
+        如果是引用数据类型给类型名称
+       是根据Mapper接口的方法的入参类型进行实华    
+  -->
+  <select id="getUserList" resultType="User" parameterType="User">
+   SELECT * FROM smbms_user WHERE userName LIKE CONCAT('%',#{userName},'%')
+   AND userRole=#{userRole} 
+  </select>
+  <!-- 测试入参为一个map集合 
+     #{Map的key值}     
+  -->
+  <select id="getUserMap" resultType="User" parameterType="Map">
+   SELECT * FROM smbms_user WHERE userName LIKE CONCAT('%',#{uname},'%')
+   AND userRole=#{urole}
+  </select>
+  <!-- 传递一个list -->
+  <select id="getList" resultType="User" parameterType="list">
+   SELECT * FROM smbms_user WHERE userName LIKE CONCAT('%',#{userName},'%')
+   AND userRole=#{userRole}
+  </select>
+  <!-- 显示多2张表的数据 
+        用户表的所有数据以及角色表的名称
+  -->
+  <select id="getUserRoleName" resultType="User" parameterType="User">
+    SELECT u.*,r.roleName FROM smbms_user u,smbms_role r
+    WHERE userName LIKE CONCAT('%',#{userName},'%')
+    AND userRole=#{userRole}
+    AND u.userRole=r.id
+  </select>
+  <!-- 调用 ResultMap去映射角色表
+     type：映射结果的类型
+     id：唯一标识在select中resultMap的引用名称一一对应
+     autoMapping：是否自动映射，值为true表示在这个resultMap中没有设置的属性，它会自动映射
+          在测试类中可以拿到值。值为false表示在这个配置文件中没有写的内容，在测试类中得不到值
+  -->
+    <!--定义一个角色表的（配件）  -->
+  <resultMap type="Role" id="roleList">
+    <!-- 创建一个id映射，主键映射 -->
+    <id property="id" column="id"/>
+    <!-- 映射实体类的列名与数据库中的字段名不一致的映射 -->
+    <result property="userRoleName" column="roleName"/>
+  </resultMap>
+  <resultMap type="User" id="userList" autoMapping="true">
+      <!-- property：实体类中的属性名
+           column：数据库表中的列名              
+         -->
+     <!--  <result property="userCode" column="userCode"/>
+      <result property="userName" column="userName"/>
+      <result property="userRole" column="userRole"/>
+      <result property="roleName" column="roleName"/> -->
+      <!-- 引用另外一个resultMap -->
+      <!-- 将角色表的组件安装到user表中 -->
+      <!-- property：就是user实体类中角色类对象
+           resultMap:因为user实体中有一个角色实体，引用对角色实体类的映射关系
+           javaType：实体类的别名
+       -->
+      <association property="role" resultMap="roleList" javaType="Role"></association>
+  </resultMap>
+  <!-- 使用ResultMap去映射角色表的数据
+      resultType：一个具体的实体类
+      resultmap:自己写的一个映射结果
+    -->
+  <select id="getUserResultMap" resultMap="userList" parameterType="User">
+    SELECT u.*,r.roleName FROM smbms_user u,smbms_role r
+    WHERE userName LIKE CONCAT('%',#{userName},'%')
+    AND userRole=#{userRole}
+    AND u.userRole=r.id
   </select>
 </mapper>

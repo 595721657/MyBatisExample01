@@ -5,12 +5,17 @@ package entity;
  *
  */
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Role {
-     private int id;//主键id
+public class Role implements Serializable{
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3282844585517456123L;
+	private int id;//主键id
      private String roleCode;//角色编码
-     private String roleName;//角色名称
+     private String userRoleName;//角色名称
      private int createdBy;//创建者
      private Date creationDate;//创建时间
      private int modifyBy;//修改者
@@ -27,11 +32,11 @@ public class Role {
 	public void setRoleCode(String roleCode) {
 		this.roleCode = roleCode;
 	}
-	public String getRoleName() {
-		return roleName;
+	public String getUserRoleName() {
+		return userRoleName;
 	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setUserRoleName(String userRoleName) {
+		this.userRoleName = userRoleName;
 	}
 	public int getCreatedBy() {
 		return createdBy;

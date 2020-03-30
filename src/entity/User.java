@@ -21,6 +21,21 @@ public class User {
      private Date creationDate;//创建日期
      private int modifyBy;//修改人
      private Date modifyDate;//修改时间
+	 private Role role;//角色类
+	 //resultMap高级映射
+     public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	public User(String userName, int userRole) {
+		this.userName=userName;
+		this.userRole=userRole;		
+	}
+	public User() {
+		super();
+	}
 	public int getId() {
 		return id;
 	}
